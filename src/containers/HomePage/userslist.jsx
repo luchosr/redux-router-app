@@ -1,11 +1,18 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { makeSelectUsers } from "./selectors";
+import styled from "styled-components";
 
 const UsersContainers = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-evenly;
+`;
+
+const UserWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const UserImage = styled.div`
@@ -27,10 +34,27 @@ const stateSelector = createSelector(makeSelectUsers, (users) => ({
   users,
 }));
 
-const userslist = (props) => {
+const UsersList = (props) => {
   const { users } = useSelector(stateSelector);
 
-  return <div></div>;
+  const isEmptyUsers = !users || (users && users.length === 0);
+
+  if (isEmptyUsers) return null;
+
+  return (
+    <UsersContainers>
+      {users.map((user, idx) => (
+        <UserWrapper key={idx}>
+          <UserImage>
+            <img src={user.avatar} />
+          </UserImage>
+          <UserName>
+            {user.first_name} {user.last_name}
+          </UserName>
+        </UserWrapper>
+      ))}
+    </UsersContainers>
+  );
 };
 
-export default userslist;
+export default UsersList;

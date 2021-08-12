@@ -4,6 +4,8 @@ import { createSelector } from "reselect";
 import { makeSelectUsers } from "./selectors";
 import Axios from "axios";
 import { setUsers } from "./actions";
+import UsersList from "./userslist";
+
 const stateSelector = createSelector(makeSelectUsers, (users) => ({
   users,
 }));
@@ -27,7 +29,11 @@ const HomePage = (props) => {
   }, []);
 
   console.log("Users: ", users);
-  return <div>Hello World</div>;
+  return (
+    <div>
+      <UsersList />
+    </div>
+  );
 };
 
 export default HomePage;
