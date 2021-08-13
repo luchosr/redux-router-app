@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import Axios from "axios";
 import { setUser } from "./actions";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "reselect";
-import { makeSelectUsers } from "../HomePage/selectors";
+import { makeSelectUser } from "./selectors";
 import styled from "styled-components";
 
 const UserContainer = styled.div`
@@ -40,7 +40,7 @@ const UserEmail = styled.h3`
   margin: 0;
 `;
 
-const stateSelector = createSelector(makeSelectUsers, (user) => ({
+const stateSelector = createSelector(makeSelectUser, (user) => ({
   user,
 }));
 
@@ -56,15 +56,36 @@ const UserPage = (props) => {
 
   const fetchUser = async (id) => {
     const response = await Axios.get(`https://reqres.in/api/users/${id}`).catch(
-      (err) => console.log("Err: ", err)
+      (err) => {
+        console.log("Err: ", err);
+      }
     );
+
+    console.log("User: ", response.data.data);
+
     if (response) setUser(response.data.data);
   };
+
   useEffect(() => {
     if (userId && userId !== "") fetchUser(userId);
+    console.log("ola ke ase");
   }, [userId]);
 
-  return <div> Hola test!!!</div>;
+  if (!user) return <div>Loading...</div>;
+
+  return (
+    <UserContainer>
+      <UserWrapper>
+        <UserImage>
+          <img src={user.avatar} />
+        </UserImage>
+        <UserName>
+          {user.first_name} {user.last_name}
+        </UserName>
+        <UserEmail>{user.email}</UserEmail>
+      </UserWrapper>
+    </UserContainer>
+  );
 };
 
 export default UserPage;

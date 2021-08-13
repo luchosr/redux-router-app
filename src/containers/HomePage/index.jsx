@@ -17,14 +17,14 @@ const HomePage = (props) => {
   const { users } = useSelector(stateSelector);
   const { setUser } = actionDispatch(useDispatch());
 
-  const fetchUsers = async () => {
-    const response = await Axios.get("https://reqres.in/api/users").catch(
-      (err) => console.log("Error: ", err)
-    );
-    setUser(response.data.data);
-  };
-
   useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await Axios.get("https://reqres.in/api/users").catch(
+        (err) => console.log("Error: ", err)
+      );
+      setUser(response.data.data);
+    };
+
     fetchUsers();
   }, []);
 

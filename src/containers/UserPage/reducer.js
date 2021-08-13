@@ -1,4 +1,5 @@
 import { ActionTypes } from "./constants";
+
 const defaultState = {
   user: null,
 };
