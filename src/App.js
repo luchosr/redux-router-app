@@ -8,6 +8,7 @@ function App() {
       <div className="App">
         <Switch>
           <HomePage exact path="/" component={HomePage} />
+          <Route> 404 Not Found!</Route>
         </Switch>
       </div>
     </Router>
