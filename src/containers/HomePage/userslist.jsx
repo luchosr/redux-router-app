@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { makeSelectUsers } from "./selectors";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 const UsersContainers = styled.div`
   width: 100%;
@@ -39,12 +40,18 @@ const UsersList = (props) => {
 
   const isEmptyUsers = !users || (users && users.length === 0);
 
+  const history = useHistory();
+
+  const goToUserPage = (id) => {
+    history.push(`/user/${id}`);
+  };
+
   if (isEmptyUsers) return null;
 
   return (
     <UsersContainers>
       {users.map((user, idx) => (
-        <UserWrapper key={idx}>
+        <UserWrapper key={idx} onClick={() => goToUserPage(user.id)}>
           <UserImage>
             <img src={user.avatar} />
           </UserImage>
